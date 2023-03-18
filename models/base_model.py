@@ -20,7 +20,21 @@ class BaseModel:
     def __str__(self):
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
+    def save(self):
+        """
+        Saves all changes made to the model and updates
+        the updated_at timestamp
+        """
+        self.updated_at = datetime.now()
 
-my_base = BaseModel()
-# print(my_base.id, my_base.created_at, my_base.updated_at)
-print(my_base)
+    def to_dict(self):
+        """
+        Returns a dictionary representation of the model
+        including the class name as __class__ and isoformat
+        of the created_at and updated_at
+        """
+        dict_rep = {**self.__dict__}
+        dict_rep["__class__"] = self.__class__.__name__
+        dict_rep["created_at"] = self.created_at.isoformat()
+        dict_rep["updated_at"] = self.updated_at.isoformat()
+        return dict_rep
