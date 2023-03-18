@@ -2,7 +2,7 @@
 from datetime import datetime
 import uuid
 """
-This Module contains a base model class 
+This Module contains a base model class
 """
 
 
