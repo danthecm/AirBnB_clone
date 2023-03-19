@@ -28,7 +28,6 @@ class FileStorage():
         Args:
         obj: the object to be saved
         """
-        print("type of dict ", type(obj.__dict__))
         self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj.__dict__
 
     def save(self):
@@ -53,7 +52,6 @@ class FileStorage():
                 new_obj = json.loads(f.read())
                 for key, value in new_obj.items():
                     for obj_key, obj_value in value.items():
-                        print(f"Object key: {obj_key} {obj_value}")
                         if obj_key == "created_at" or obj_key == "updated_at":
                             value[obj_key] = datetime.fromisoformat(
                                 obj_value)
