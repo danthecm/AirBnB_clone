@@ -51,7 +51,6 @@ class FileStorage():
         try:
             with open(self.__file_path, "r") as f:
                 new_obj = json.loads(f.read())
-                print(f"reloaded from json {new_obj}")
                 for key, value in new_obj.items():
                     for obj_key, obj_value in value.items():
                         print(f"Object key: {obj_key} {obj_value}")
@@ -62,4 +61,4 @@ class FileStorage():
                         print(f"Final value: {value}")
                     self.__objects[key] = value
         except Exception as e:
-            print("Exception", e)
+            pass
