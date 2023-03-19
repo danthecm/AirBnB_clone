@@ -50,7 +50,7 @@ class BaseModel:
         including the class name as __class__ and isoformat
         of the created_at and updated_at
         """
-        dict_rep = {**self.__dict__}
+        dict_rep = self.__dict__.copy()
         dict_rep["__class__"] = self.__class__.__name__
         dict_rep["created_at"] = str(self.created_at.isoformat())
         dict_rep["updated_at"] = str(self.updated_at.isoformat())

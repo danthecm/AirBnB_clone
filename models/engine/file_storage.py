@@ -3,6 +3,7 @@
 File storage module containing a FileStorage class
 """
 import json
+from datetime import datetime
 
 
 class FileStorage():
@@ -27,14 +28,20 @@ class FileStorage():
         Args:
         obj: the object to be saved
         """
-        self.__objects[
-            f"{obj.__class__.__name__}.{obj.id}"] = obj.to_dict()
+        print("type of dict ", type(obj.__dict__))
+        self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj.__dict__
 
     def save(self):
         """
         Serializes the object to a json file
         """
         with open(self.__file_path, "w") as f:
+            new_obj = {}
+            for key, value in self.__objects.items():
+                for obj_key in value.keys():
+                    if obj_key == "created_at" or obj_key == "updated_at":
+                        value[obj_key] = value[obj_key].isoformat()
+                new_obj[key] = value
             f.write(json.dumps(self.__objects))
 
     def reload(self):
@@ -43,6 +50,16 @@ class FileStorage():
         """
         try:
             with open(self.__file_path, "r") as f:
-                self.__objects = json.loads(f.read())
-        except Exception:
-            pass
+                new_obj = json.loads(f.read())
+                print(f"reloaded from json {new_obj}")
+                for key, value in new_obj.items():
+                    for obj_key, obj_value in value.items():
+                        print(f"Object key: {obj_key} {obj_value}")
+                        if obj_key == "created_at" or obj_key == "updated_at":
+                            value[obj_key] = datetime.fromisoformat(
+                                obj_value)
+
+                        print(f"Final value: {value}")
+                    self.__objects[key] = value
+        except Exception as e:
+            print("Exception", e)
