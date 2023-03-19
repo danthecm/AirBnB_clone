@@ -20,8 +20,14 @@ class FileStorage():
         the key of the dictionaries are the objects name and id
         the value is the object itself
         """
-        self.reload()
-        return self.__objects
+        my_objects = {}
+        for key, value in self.__objects.items():
+            for obj_key, obj_value in value.items():
+                if obj_key == "created_at" or obj_key == "updated_at":
+                    value[obj_key] = datetime.fromisoformat(
+                        obj_value)
+            my_objects[key] = value
+        return my_objects
 
     def new(self, obj):
         """
@@ -50,12 +56,6 @@ class FileStorage():
         """
         try:
             with open(self.__file_path, "r") as f:
-                loaded_obj = json.loads(f.read())
-                for key, value in loaded_obj.items():
-                    for obj_key, obj_value in value.items():
-                        if obj_key == "created_at" or obj_key == "updated_at":
-                            value[obj_key] = datetime.fromisoformat(
-                                obj_value)
-                    self.__objects[key] = value
+                self.__objects = json.loads(f.read())
         except Exception as e:
             pass
