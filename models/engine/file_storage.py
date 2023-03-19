@@ -27,7 +27,8 @@ class FileStorage():
         Args:
         obj: the object to be saved
         """
-        self.__objects[f"{obj.__class__}{obj.id}"] = obj
+        self.__objects[
+            f"{obj.__class__.__name__}.{obj.id}"] = obj.to_dict()
 
     def save(self):
         """
