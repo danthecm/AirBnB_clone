@@ -57,8 +57,6 @@ class FileStorage():
                         if obj_key == "created_at" or obj_key == "updated_at":
                             value[obj_key] = datetime.fromisoformat(
                                 obj_value)
-
-                        print(f"Final value: {value}")
                     self.__objects[key] = value
         except Exception as e:
             pass
