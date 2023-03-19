@@ -19,7 +19,7 @@ class FileStorage():
         the key of the dictionaries are the objects name and id
         the value is the object itself
         """
-        pass
+        return self.__objects
 
     def new(self, obj):
         """
@@ -27,16 +27,21 @@ class FileStorage():
         Args:
         obj: the object to be saved
         """
-        pass
+        self.__objects[f"{obj.__class__}{obj.id}"] = obj
 
     def save(self):
         """
         Serializes the object to a json file
         """
-        pass
+        with open(self.__file_path, "w") as f:
+            f.write(json.dumps(self.__objects))
 
     def reload(self):
         """
         Deserializes the object from the json file
         """
-        pass
+        try:
+            with open(self.__file_path, "r") as f:
+                self.__objects = json.loads(f.read())
+        except:
+            pass
