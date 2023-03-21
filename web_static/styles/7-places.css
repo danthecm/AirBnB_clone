@@ -1,0 +1,30 @@
+.places {
+  margin-top: 20px;
+}
+.places h1 {
+  font-size: 30px;
+}
+
+.places-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+}
+
+.places-list article {
+  width: 390px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ff5a5f;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.places-list article h2 {
+  font-size: 30px;
+}
+
+.places-list article:last-child {
+  grid-column: span 2;
+  justify-self: center;
+}
