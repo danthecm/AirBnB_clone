@@ -34,7 +34,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             new_model = base_model.BaseModel()
             new_model.save()
-            print(f"{new_model.__class__.__name__}.{new_model.id}")
+            print(new_model.id)
 
     def do_show(self, line):
         """
