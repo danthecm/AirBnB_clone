@@ -4,6 +4,7 @@ File storage module containing a FileStorage class
 """
 import json
 from datetime import datetime
+import sys
 
 
 class FileStorage():
@@ -42,15 +43,19 @@ class FileStorage():
                 new_obj[key] = dict_val
             f.write(json.dumps(new_obj))
 
-    def reload(self, object):
+    def reload(self):
         """
         Deserializes the object from the json file
         """
         try:
+            if 'base_model' in sys.modules:
+                pass
+            else:
+                from models.base_model import BaseModel
             with open(self.__file_path, "r") as f:
                 self.__objects = json.loads(f.read())
                 for key, value in self.__objects.items():
-                    self.__objects[key] = object(**value)
+                    self.__objects[key] = BaseModel(**value)
                 # print(f"Reloaded objects {self.__objects}")
         except Exception as e:
             # print(f"Error reloading objects {e}")
