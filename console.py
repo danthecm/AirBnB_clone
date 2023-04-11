@@ -34,6 +34,26 @@ class HBNBCommand(cmd.Cmd):
             new_model = base_model.BaseModel()
             new_model.save()
 
+    def do_show(self, line):
+        """
+        Creates a new instance of the given
+        class name
+        """
+        words = line.split(" ")
+        if words[0] == "":
+            print("** class name missing **")
+        elif words[0] != "BaseModel":
+            print("** class doesn't exist **")
+        elif len(words) < 2:
+            print("** instance id missing **")
+        else:
+            all_models = storage.all()
+            my_model = all_models.get(f"BaseModel.{words[1]}")
+            if my_model:
+                print(my_model)
+            else:
+                print("** no instance found **")
+
 
 
     do_EOF = do_quit
