@@ -20,14 +20,7 @@ class FileStorage():
         the key of the dictionaries are the objects name and id
         the value is the object itself
         """
-        my_objects = {}
-        for key, value in self.__objects.items():
-            for obj_key, obj_value in value.items():
-                if obj_key == "created_at" or obj_key == "updated_at":
-                    value[obj_key] = datetime.fromisoformat(
-                        obj_value)
-            my_objects[key] = value
-        return my_objects
+        return self.__objects
 
     def new(self, obj):
         """
@@ -35,7 +28,7 @@ class FileStorage():
         Args:
         obj: the object to be saved
         """
-        self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj.__dict__
+        self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
     def save(self):
         """
@@ -44,18 +37,21 @@ class FileStorage():
         with open(self.__file_path, "w") as f:
             new_obj = {}
             for key, value in self.__objects.items():
-                for obj_key in value.keys():
-                    if obj_key == "created_at" or obj_key == "updated_at":
-                        value[obj_key] = value[obj_key].isoformat()
-                new_obj[key] = value
+                # print(f"About to save: {value}")
+                dict_val = value.to_dict()
+                new_obj[key] = dict_val
             f.write(json.dumps(new_obj))
 
-    def reload(self):
+    def reload(self, object):
         """
         Deserializes the object from the json file
         """
         try:
             with open(self.__file_path, "r") as f:
                 self.__objects = json.loads(f.read())
+                for key, value in self.__objects.items():
+                    self.__objects[key] = object(**value)
+                # print(f"Reloaded objects {self.__objects}")
         except Exception as e:
+            # print(f"Error reloading objects {e}")
             pass
