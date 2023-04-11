@@ -33,6 +33,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             new_model = base_model.BaseModel()
             new_model.save()
+            return new_model.id
 
     def do_show(self, line):
         """
