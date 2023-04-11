@@ -62,8 +62,10 @@ class HBNBCommand(cmd.Cmd):
         class name
         """
         words = line.split(" ")
+        print("Words: ", words)
         if words[0] == "":
-            print("** class name missing **")
+            all_models = storage.all()
+            print(all_models)
         elif words[0] != "BaseModel":
             print("** class doesn't exist **")
         else:
