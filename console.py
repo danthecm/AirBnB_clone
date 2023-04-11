@@ -4,6 +4,7 @@ A command line module for interacting with
 the AirBnB Application
 """
 import cmd
+from models import base_model, storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -18,6 +19,22 @@ class HBNBCommand(cmd.Cmd):
         if the user types quit and press enter
         """
         return True
+
+    def do_create(self, line):
+        """
+        Creates a new instance of the given
+        class name
+        """
+        words = line.split(" ")
+        if words[0] == "":
+            print("** class name missing **")
+        elif words[0] != "BaseModel":
+            print("** class doesn't exist **")
+        else:
+            new_model = base_model.BaseModel()
+            new_model.save()
+
+
 
     do_EOF = do_quit
 
