@@ -68,6 +68,34 @@ class HBNBCommand(cmd.Cmd):
             all_models = storage.all()
             print(all_models)
 
+    def do_update(self, line):
+        """
+        Creates a new instance of the given
+        class name
+        """
+        words = line.split(" ")
+        if words[0] == "":
+            print("** class name missing **")
+        elif words[0] != "BaseModel":
+            print("** class doesn't exist **")
+        elif len(words) < 2:
+            print("** instance id missing **")
+        else:
+            all_models = storage.all()
+            my_model = all_models.get(f"BaseModel.{words[1]}")
+            if my_model:
+                if len(words) < 3:
+                    print("** attribute name missing **")
+                elif len(words) < 4:
+                    print("** value missing **")
+                elif words[2] in ["id", "created_at", "updated_at"]:
+                    print("** can not update attribute **")
+                else:
+                    setattr(my_model, words[2], words[3])
+                    my_model.save()
+            else:
+                print("** no instance found **")
+
 
 
     do_EOF = do_quit
