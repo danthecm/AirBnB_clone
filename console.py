@@ -73,7 +73,8 @@ class HBNBCommand(cmd.Cmd):
         Creates a new instance of the given
         class name
         """
-        words = line.split(" ")
+        words = line.split(" ", 3)
+        print("Words", words)
         if words[0] == "":
             print("** class name missing **")
         elif words[0] != "BaseModel":
@@ -96,6 +97,26 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
+    def do_destroy(self, line):
+        """
+        Creates a new instance of the given
+        class name
+        """
+        words = line.split(" ")
+        if words[0] == "":
+            print("** class name missing **")
+        elif words[0] != "BaseModel":
+            print("** class doesn't exist **")
+        elif len(words) < 2:
+            print("** instance id missing **")
+        else:
+            all_models = storage.all()
+            my_model = all_models.get(f"BaseModel.{words[1]}")
+            if my_model:
+                storage.pop(f"{my_model.__class__.__name__}.{my_model.id}")
+                storage.save()
+            else:
+                print("** no instance found **")
 
 
     do_EOF = do_quit
