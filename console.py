@@ -9,12 +9,8 @@ import cmd
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
-    def do_EOF(self, args):
-        """
-        Exists the program by returning True
-        if the user uses Ctrl+Z
-        """
-        return True
+    def emptyline(self):
+        pass
 
     def do_quit(self, args):
         """
@@ -22,6 +18,8 @@ class HBNBCommand(cmd.Cmd):
         if the user types quit and press enter
         """
         return True
+
+    do_EOF = do_quit
 
 
 if __name__ == '__main__':
