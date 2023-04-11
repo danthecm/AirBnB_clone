@@ -26,6 +26,7 @@ class HBNBCommand(cmd.Cmd):
         class name
         """
         words = line.split(" ")
+        print("Words form create: ", words)
         if words[0] == "":
             print("** class name missing **")
         elif words[0] != "BaseModel":
@@ -33,7 +34,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             new_model = base_model.BaseModel()
             new_model.save()
-            return new_model.id
+            print(new_model.id)
 
     def do_show(self, line):
         """
@@ -118,7 +119,6 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
             else:
                 print("** no instance found **")
-
 
     do_EOF = do_quit
 
