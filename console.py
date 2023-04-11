@@ -54,6 +54,20 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
+    def do_all(self, line):
+        """
+        Creates a new instance of the given
+        class name
+        """
+        words = line.split(" ")
+        if words[0] == "":
+            print("** class name missing **")
+        elif words[0] != "BaseModel":
+            print("** class doesn't exist **")
+        else:
+            all_models = storage.all()
+            print(all_models)
+
 
 
     do_EOF = do_quit
