@@ -31,6 +31,14 @@ class FileStorage():
         """
         self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
+    def pop(self, id):
+        """
+        Removes an object from the list of saved objects
+        Args:
+        id: the id of the object to be removed
+        """
+        self.__objects.pop(id)
+
     def save(self):
         """
         Serializes the object to a json file
