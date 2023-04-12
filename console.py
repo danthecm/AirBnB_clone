@@ -4,11 +4,12 @@ A command line module for interacting with
 the AirBnB Application
 """
 import cmd
-from models import base_model, storage
+from models import base_model, storage, user
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
+    class_list = {"BaseModel": base_model.BaseModel, "User": user.User}
 
     def emptyline(self):
         pass
@@ -26,13 +27,13 @@ class HBNBCommand(cmd.Cmd):
         class name
         """
         words = line.split(" ")
-        print("Words form create: ", words)
         if words[0] == "":
             print("** class name missing **")
-        elif words[0] != "BaseModel":
+        elif words[0] not in self.class_list.keys():
             print("** class doesn't exist **")
         else:
-            new_model = base_model.BaseModel()
+            my_class = self.class_list.get(words[0])
+            new_model = my_class()
             new_model.save()
             print(new_model.id)
 
@@ -44,13 +45,13 @@ class HBNBCommand(cmd.Cmd):
         words = line.split(" ")
         if words[0] == "":
             print("** class name missing **")
-        elif words[0] != "BaseModel":
+        elif words[0] not in self.class_list.keys():
             print("** class doesn't exist **")
         elif len(words) < 2:
             print("** instance id missing **")
         else:
             all_models = storage.all()
-            my_model = all_models.get(f"BaseModel.{words[1]}")
+            my_model = all_models.get(f"{words[0]}.{words[1]}")
             if my_model:
                 print(my_model)
             else:
@@ -62,14 +63,15 @@ class HBNBCommand(cmd.Cmd):
         class name
         """
         words = line.split(" ")
-        print("Words: ", words)
         if words[0] == "":
             all_models = storage.all()
             print(all_models)
-        elif words[0] != "BaseModel":
+        elif words[0] not in self.class_list:
             print("** class doesn't exist **")
         else:
             all_models = storage.all()
+            all_models = {k: v for k, v in all_models.items(
+            ) if v.__class__.__name__ == words[0]}
             print(all_models)
 
     def do_update(self, line):
@@ -78,16 +80,15 @@ class HBNBCommand(cmd.Cmd):
         class name
         """
         words = line.split(" ", 3)
-        print("Words", words)
         if words[0] == "":
             print("** class name missing **")
-        elif words[0] != "BaseModel":
+        elif words[0] not in self.class_list:
             print("** class doesn't exist **")
         elif len(words) < 2:
             print("** instance id missing **")
         else:
             all_models = storage.all()
-            my_model = all_models.get(f"BaseModel.{words[1]}")
+            my_model = all_models.get(f"{words[0]}.{words[1]}")
             if my_model:
                 if len(words) < 3:
                     print("** attribute name missing **")
@@ -98,6 +99,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     setattr(my_model, words[2], words[3])
                     my_model.save()
+                    print(my_model.id)
             else:
                 print("** no instance found **")
 
@@ -109,13 +111,13 @@ class HBNBCommand(cmd.Cmd):
         words = line.split(" ")
         if words[0] == "":
             print("** class name missing **")
-        elif words[0] != "BaseModel":
+        elif words[0] not in self.class_list:
             print("** class doesn't exist **")
         elif len(words) < 2:
             print("** instance id missing **")
         else:
             all_models = storage.all()
-            my_model = all_models.get(f"BaseModel.{words[1]}")
+            my_model = all_models.get(f"{words[0]}.{words[1]}")
             if my_model:
                 storage.pop(f"{my_model.__class__.__name__}.{my_model.id}")
                 storage.save()
