@@ -59,9 +59,10 @@ class FileStorage():
             if 'base_model' in sys.modules:
                 pass
             else:
-                from models.base_model import BaseModel
-                from models.user import User
-            __classes = {"BaseModel": BaseModel, "User": User}
+                from models import base_model, user, state, city, place, amenity, review
+            __classes = {
+                "BaseModel": base_model.BaseModel, "User": user.User,
+                "State": state.State, "City": city.City, "Place": place.Place, "Amenity": amenity.Amenity, "Review": review.Review}
             with open(self.__file_path, "r") as f:
                 self.__objects = json.loads(f.read())
                 for key, value in self.__objects.items():
