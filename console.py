@@ -4,12 +4,16 @@ A command line module for interacting with
 the AirBnB Application
 """
 import cmd
-from models import base_model, storage, user
+from models import (base_model, storage, user, state,
+                    city, place, amenity, review)
 
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
-    class_list = {"BaseModel": base_model.BaseModel, "User": user.User}
+    class_list = {
+        "BaseModel": base_model.BaseModel, "User": user.User,
+        "State": state.State, "City": city.City, "Place": place.Place, "Amenity": amenity.Amenity,
+        "Review": review.Review}
 
     def emptyline(self):
         pass
