@@ -60,10 +60,14 @@ class FileStorage():
                 pass
             else:
                 from models.base_model import BaseModel
+                from models.user import User
+            __classes = {"BaseModel": BaseModel, "User": User}
             with open(self.__file_path, "r") as f:
                 self.__objects = json.loads(f.read())
                 for key, value in self.__objects.items():
-                    self.__objects[key] = BaseModel(**value)
+                    class_name = value.get("__class__")
+                    my_class = __classes.get(class_name)
+                    self.__objects[key] = my_class(**value)
                 # print(f"Reloaded objects {self.__objects}")
         except Exception as e:
             # print(f"Error reloading objects {e}")
