@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             all_models = storage.all()
-            all_models = {k: v for k, v in all_models.items(
+            all_models = {k: str(v) for k, v in all_models.items(
             ) if v.__class__.__name__ == words[0]}
             print(all_models)
 
