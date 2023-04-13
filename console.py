@@ -146,8 +146,9 @@ class HBNBCommand(cmd.Cmd):
             print(len(my_model))
 
     def default(self, line: str) -> None:
-        action_list = {"show": self.do_show, "all": self.do_all, "count": self.do_count,
-                       "update": self.do_update, "destroy": self.do_destroy}
+        action_list = {
+            "show": self.do_show, "all": self.do_all, "count": self.do_count,
+            "update": self.do_update, "destroy": self.do_destroy}
         words = line.split(".")
         try:
             model = words[0]
